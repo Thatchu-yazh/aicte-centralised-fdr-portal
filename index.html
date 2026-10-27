@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AICTE Security Deposit & FDR Regulatory Ecosystem</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', system-ui, sans-serif; }
+        body { background: #f4f6f9; color: #2d3748; padding-bottom: 60px; }
+        
+        /* GIGW Govt of India Header Styling */
+        header { background: #0B2545; color: white; padding: 18px 20px; border-bottom: 5px solid #ff9933; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        .header-container { max-width: 1350px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        .header-title h1 { font-size: 20px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.5px; }
+        .header-title p { font-size: 11px; color: #ff9933; font-weight: 700; text-transform: uppercase; margin-top: 3px; letter-spacing: 0.5px; }
+        .header-badges { display: flex; gap: 10px; align-items: center; }
+        .live-badge { background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.4); padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+        .security-badge { background: rgba(255, 153, 51, 0.15); color: #ff9933; border: 1px solid rgba(255, 153, 51, 0.4); padding: 6px 14px; border-radius: 20px; font-size: 11px; font-weight: bold; }
+
+        /* KPI Executive Summary Strip */
+        .kpi-grid { max-width: 1350px; margin: 20px auto 0 auto; padding: 0 20px; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+        .kpi-card { background: white; padding: 18px 20px; border-radius: 12px; border: 1px solid #e2e8f0; box-shadow: 0 2px 6px rgba(0,0,0,0.02); display: flex; justify-content: space-between; align-items: center; border-left: 5px solid #0B2545; }
+        .kpi-card.green { border-left-color: #10b981; }
+        .kpi-card.red { border-left-color: #ef4444; }
+        .kpi-card.amber { border-left-color: #f59e0b; }
+        .kpi-info h4 { font-size: 11px; text-transform: uppercase; color: #718096; font-weight: 800; letter-spacing: 0.5px; }
+        .kpi-info .kpi-num { font-size: 26px; font-weight: 900; color: #0B2545; margin-top: 4px; }
+
+        /* Dynamic Role-Based Access Control Navigation Bar */
+        .switcher-bar { max-width: 1350px; margin: 20px auto 0 auto; padding: 0 20px; display: flex; gap: 12px; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+        .role-tabs { display: flex; gap: 10px; flex-wrap: wrap; }
+        .switch-btn { background: #e2e8f0; color: #4a5568; padding: 10px 20px; border: none; border-radius: 8px; font-size: 12px; font-weight: 800; cursor: pointer; transition: all 0.2s; text-transform: uppercase; letter-spacing: 0.5px; }
+        .switch-btn.active { background: #0B2545; color: white; box-shadow: 0 4px 8px rgba(11, 37, 69, 0.2); border-bottom: 3px solid #ff9933; }
+        
+        .search-box { padding: 9px 14px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 12px; width: 280px; outline: none; background: white; }
+        .search-box:focus { border-color: #0B2545; }
+
+        main { max-width: 1350px; margin: 20px auto; padding: 0 20px; }
+
+        .panel { background: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; height: fit-content; margin-bottom: 25px; }
+        .panel-title { font-size: 14px; font-weight: 800; color: #0B2545; border-bottom: 2px solid #edf2f7; padding-bottom: 12px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
+        .form-group { margin-bottom: 14px; }
+        .form-group.full { grid-column: 1 / -1; }
+        .form-group label { display: block; font-size: 11px; font-weight: 700; color: #4a5568; text-transform: uppercase; margin-bottom: 6px; }
+        .form-group input, .form-group select { width: 100%; padding: 10px 12px; border: 1px solid #cbd5e0; border-radius: 8px; font-size: 13px; outline: none; background: #fff; }
+        .form-group input:focus { border-color: #3182ce; box-shadow: 0 0 0 3px rgba(49,130,206,0.15); }
+        
+        .btn-transmit { width: 100%; background: #0B2545; color: white; border: none; padding: 14px; border-radius: 8px; font-size: 13px; font-weight: 800; text-transform: uppercase; cursor: pointer; transition: background 0.2s; margin-top: 8px; letter-spacing: 0.5px; }
+        .btn-transmit:hover { background: #163a66; }
+
+        .list-container { display: flex; flex-direction: column; gap: 25px; margin-bottom: 25px; }
+        .list-section { background: white; border-radius: 16px; box-shadow: 0 4px 10px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; overflow: hidden; }
+        .list-header { padding: 14px 20px; font-size: 13px; font-weight: 800; color: white; text-transform: uppercase; letter-spacing: 0.5px; display: flex; justify-content: space-between; align-items: center; }
+        .list-header.red { background: linear-gradient(90deg, #c53030, #e53e3e); }
+        .list-header.yellow { background: linear-gradient(90deg, #c05621, #dd6b20); }
+        .list-header.green { background: linear-gradient(90deg, #2f855a, #38a169); }
+
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 13px; }
+        th { background: #f8fafc; padding: 12px 16px; color: #4a5568; font-size: 11px; font-weight: 800; text-transform: uppercase; border-bottom: 2px solid #e2e8f0; }
+        td { padding: 14px 16px; border-bottom: 1px solid #edf2f7; vertical-align: middle; line-height: 1.4; }
+        tr:hover td { background: #f8fafc; }
+        
+        .badge { display: inline-block; padding: 4px 8px; border-radius: 6px; font-size: 10px; font-weight: 800; text-transform: uppercase; background: #edf2f7; color: #2d3748; }
+
+        .action-btn { display: inline-block; padding: 6px 11px; border-radius: 6px; font-size: 11px; font-weight: 700; text-decoration: none; cursor: pointer; text-transform: uppercase; margin: 2px; border: none; transition: opacity 0.2s; }
+        .action-btn:hover { opacity: 0.9; }
+        .green-btn { background: #10b981; color: white; }
+        .red-btn { background: #ef4444; color: white; }
+
+        .audit-trail-panel { background: #0B2545; color: white; padding: 25px; border-radius: 16px; box-shadow: 0 4px 14px rgba(0,0,0,0.08); }
+        .audit-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #1e3a5f; padding-bottom: 12px; }
+        .log-stream { display: grid; grid-template-columns: 1fr; gap: 10px; margin-top: 15px; font-family: 'Consolas', monospace; font-size: 12px; }
+        @media (min-width: 900px) { .log-stream { grid-template-columns: 1fr 1fr; } }
+        .log-item { background: #071931; padding: 12px 14px; border-radius: 8px; border-left: 3px solid #ff9933; color: #e2e8f0; line-height: 1.5; word-break: break-word; }
+        .log-time { color: #ff9933; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-container">
+            <div class="header-title">
+                <h1>All India Council for Technical Education (AICTE)</h1>
+                <p>Regulation Bureau — Centralized Security Deposit & FDR Lifecycle Management Portal</p>
+            </div>
+            <div class="header-badges">
+                <div class="security-badge">🔒 SHA-256 Audit Chain Active</div>
+                <div class="live-badge">● Bank Verification Gateway Online</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Executive KPI Strip (Connected to server.py variables) -->
+    <section class="kpi-grid">
+        <div class="kpi-card">
+            <div class="kpi-info">
+                <h4>Total FDR Instruments</h4>
+                <div class="kpi-num">{{ total }}</div>
+            </div>
+            <span style="font-size: 26px;">🏛️</span>
+        </div>
+        <div class="kpi-card green">
+            <div class="kpi-info">
+                <h4>Bank Verified & Locked</h4>
+                <div class="kpi-num" style="color: #059669;">{{ verified }}</div>
+            </div>
+            <span style="font-size: 26px;">✅</span>
+        </div>
+        <div class="kpi-card red">
+            <div class="kpi-info">
+                <h4>Discrepancies Flagged</h4>
+                <div class="kpi-num" style="color: #dc2626;">{{ flagged }}</div>
+            </div>
+            <span style="font-size: 26px;">🚨</span>
+        </div>
+        <div class="kpi-card amber">
+            <div class="kpi-info">
+                <h4>Maturing ≤ 30 Days (Escalated)</h4>
+                <div class="kpi-num" style="color: #d97706;">{{ critical }}</div>
+            </div>
+            <span style="font-size: 26px;">⏳</span>
+        </div>
+    </section>
+
+    <!-- Role Selection & Search Bar -->
+    <div class="switcher-bar">
+        <div class="role-tabs">
+            <button onclick="switchView('college')" id="btn-col" class="switch-btn">🏢 1. Institution Submission</button>
+            <button onclick="switchView('bank')" id="btn-bnk" class="switch-btn">🏦 2. Bank & Officer Scrutiny</button>
+            <button onclick="switchView('aicte')" id="btn-act" class="switch-btn active">🏛️ 3. AICTE Master Dashboard</button>
+        </div>
+        <input type="text" id="globalSearch" class="search-box" onkeyup="filterTables()" placeholder="🔍 Search by FDR No, College, or Bank...">
+    </div>
+
+    <main>
+        <!-- View 1: College Submission Block -->
+        <div class="panel" id="college-panel" style="max-width: 720px; margin: 0 auto 25px auto; display: none;">
+            <div class="panel-title">
+                <span>🏢 Institution Digital FDR Submission Portal</span>
+                <span style="font-size: 11px; color: #059669;">AI OCR & Duplicate Hash Guard Enabled</span>
+            </div>
+            <form action="/submit-ingestion-stream" method="POST" enctype="multipart/form-data">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>1. AICTE Permanent Institution ID</label>
+                        <input type="text" name="aicte_inst_id" value="1-49283741" placeholder="e.g., 1-49283741" required>
+                    </div>
+                    <div class="form-group">
+                        <label>2. Technical Institution Name</label>
+                        <input type="text" name="institution_name" value="Anna Tech Engineering College, Chennai" required>
+                    </div>
+                    <div class="form-group">
+                        <label>3. Issuing Bank Name</label>
+                        <input type="text" name="bank_name" placeholder="e.g., State Bank of India, Adyar Branch" required>
+                    </div>
+                    <div class="form-group">
+                        <label>4. FDR Instrument Reference No.</label>
+                        <input type="text" name="fdr_num" placeholder="e.g., SBIN0099812" required>
+                    </div>
+                    <div class="form-group">
+                        <label>5. Deposit Amount (INR) [Min Norm: ₹15,00,000]</label>
+                        <input type="number" name="amount" placeholder="e.g., 1500000" required>
+                    </div>
+                    <div class="form-group">
+                        <label>6. Date of Issue</label>
+                        <input type="date" name="issue_date" required>
+                    </div>
+                    <div class="form-group full">
+                        <label>7. Maturity Date (Tip: Pick a date within 30 days to test Yellow Alert list!)</label>
+                        <input type="date" name="maturity_date" required>
+                    </div>
+                    <div class="form-group full">
+                        <label>8. Upload Original Scanned FDR Instrument (PDF — Encrypted & SHA-256 Fingerprinted)</label>
+                        <input type="file" name="fdr_pdf" accept=".pdf" required style="border:2px dashed #cbd5e0; background:#f8fafc; padding:12px; border-radius:8px;">
+                    </div>
+                </div>
+                <button type="submit" class="btn-transmit">🚀 Submit FDR & Trigger Automated Bank Verification</button>
+            </form>
+        </div>
+
+        <!-- View 2 & 3: Master Regulatory Urgency Panels -->
+        <div class="list-container" id="regulatory-panel" style="display: flex;">
+            
+            <!-- 🔴 Urgent Danger List -->
+            <div class="list-section">
+                <div class="list-header red">
+                    <span>🔴 Red List: Discrepancy Flagged / Below APH Norm / Overdue Instruments</span>
+                    <span style="font-size: 11px; background: rgba(0,0,0,0.2); padding: 3px 8px; border-radius: 4px;">Immediate Scrutiny Required</span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="fdr-table">
+                        <thead>
+                            <tr>
+                                <th>FDR Reference & Institution</th>
+                                <th>Inst Submitted vs Bank Confirmed</th>
+                                <th>Issue Date</th>
+                                <th>Maturity & Validity</th>
+                                <th>AI / Norm Scrutiny</th>
+                                <th>Regulatory Status</th>
+                                <th class="action-header" style="text-align:center;">Authorized Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- RED_LIST_PLACEHOLDER -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 🟡 Expiring Warning List -->
+            <div class="list-section">
+                <div class="list-header yellow">
+                    <span>🟡 Yellow List: Maturing Within 90 Days (Automated T-90/T-30 Reminders Active)</span>
+                    <span style="font-size: 11px; background: rgba(0,0,0,0.2); padding: 3px 8px; border-radius: 4px;">Renewal Tracking Window</span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="fdr-table">
+                        <thead>
+                            <tr>
+                                <th>FDR Reference & Institution</th>
+                                <th>Inst Submitted vs Bank Confirmed</th>
+                                <th>Issue Date</th>
+                                <th>Maturity & Validity</th>
+                                <th>AI / Norm Scrutiny</th>
+                                <th>Regulatory Status</th>
+                                <th class="action-header" style="text-align:center;">Authorized Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- YELLOW_LIST_PLACEHOLDER -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- 🟢 Safe Validated List -->
+            <div class="list-section">
+                <div class="list-header green">
+                    <span>🟢 Green List: Active, Verified & Lien-Locked Instruments</span>
+                    <span style="font-size: 11px; background: rgba(0,0,0,0.2); padding: 3px 8px; border-radius: 4px;">Compliant Repository</span>
+                </div>
+                <div class="table-wrapper">
+                    <table class="fdr-table">
+                        <thead>
+                            <tr>
+                                <th>FDR Reference & Institution</th>
+                                <th>Inst Submitted vs Bank Confirmed</th>
+                                <th>Issue Date</th>
+                                <th>Maturity & Validity</th>
+                                <th>AI / Norm Scrutiny</th>
+                                <th>Regulatory Status</th>
+                                <th class="action-header" style="text-align:center;">Authorized Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- GREEN_LIST_PLACEHOLDER -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Immutable Cryptographic Audit Trail Panel -->
+        <div class="audit-trail-panel">
+            <div class="audit-header">
+                <div style="font-size: 14px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;">
+                    ⛓️ Immutable Regulatory Audit Trail (SHA-256 Hash-Chained Ledger)
+                </div>
+                <span style="font-size: 11px; color: #ff9933;">Tamper-Proof Compliance Logs</span>
+            </div>
+            <div class="log-stream">
+                <!-- LOGS_PLACEHOLDER -->
+            </div>
+        </div>
+    </main>
+
+    <script>
+        function switchView(role) {
+            localStorage.setItem('aicte_active_role', role);
+            const collegePanel = document.getElementById('college-panel');
+            const regPanel = document.getElementById('regulatory-panel');
+            
+            document.getElementById('btn-col').classList.remove('active');
+            document.getElementById('btn-bnk').classList.remove('active');
+            document.getElementById('btn-act').classList.remove('active');
+
+            if (role === 'college') {
+                collegePanel.style.display = 'block';
+                regPanel.style.display = 'none';
+                document.getElementById('btn-col').classList.add('active');
+            } else if (role === 'bank') {
+                collegePanel.style.display = 'none';
+                regPanel.style.display = 'flex';
+                document.getElementById('btn-bnk').classList.add('active');
+            } else {
+                collegePanel.style.display = 'none';
+                regPanel.style.display = 'flex';
+                document.getElementById('btn-act').classList.add('active');
+            }
+        }
+
+        // Instant Search Filter across all 3 Regulatory Tables
+        function filterTables() {
+            const query = document.getElementById('globalSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('.fdr-table tbody tr');
+            rows.forEach(row => {
+                const text = row.innerText.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        }
+
+        // Restore last active view after form submit or action click
+        window.onload = function() {
+            const savedRole = localStorage.getItem('aicte_active_role') || 'aicte';
+            switchView(savedRole);
+        };
+    </script>
+</body>
+</html>
